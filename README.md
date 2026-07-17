@@ -21,6 +21,24 @@ npx astro dev logs
 npx astro dev stop
 ```
 
+## Publish
+
+수정 사항을 GitHub `main`에 커밋·푸시하고 운영 서버에 배포하려면 커밋 메시지와 함께 실행합니다.
+
+```sh
+npm run publish -- "메인 페이지 문구 수정"
+```
+
+게시 명령은 Astro 검사, 명암비 검사, 프로덕션 빌드를 먼저 수행합니다. 검사를 통과하면 변경
+사항을 커밋하고 GitHub에 푸시한 뒤 `ssh dtalk` 서버의 새 릴리스 디렉터리로 `dist`를 전송하고
+`/var/www/dittoist-homepage/current` 링크를 교체합니다. 공개 URL 확인에 실패하면 이전 릴리스로
+자동 복구합니다. `.env`와 키 파일은 게시할 수 없습니다.
+
+로컬 SSH 별칭이나 확인 URL이 다른 환경에서는 아래 환경 변수로 덮어쓸 수 있습니다.
+
+- `DITTOIST_DEPLOY_HOST`
+- `DITTOIST_SITE_URL`
+
 ## Routes
 
 - `/` 회사 소개, 서비스, 프로세스, 대표 사례, 상담
