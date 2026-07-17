@@ -1,0 +1,41 @@
+---
+/**
+ * 프로젝트 상태 배지 (PLAN.md §2.3, §6 "반드시 구분 표기")
+ * 프로토타입을 운영 제품처럼 보이게 하지 않는 것이 이 컴포넌트의 목적이다.
+ * 색으로만 구분하지 않고 항상 텍스트를 함께 노출한다 (색각 접근성).
+ */
+type Status = '운영 중' | '개발 중' | '프로토타입' | '내부 도구';
+
+interface Props {
+  status: Status;
+  onDark?: boolean;
+  class?: string;
+}
+
+const { status, onDark = false, class: className = '' } = Astro.props;
+
+/** 라이트 배경(Ivory/Surface) 위에서는 -deep 계열만 텍스트로 쓴다 */
+const light: Record<Status, string> = {
+  '운영 중': 'bg-mint/20 text-mint-deep border-mint-deep/30',
+  '개발 중': 'bg-accent/12 text-accent-deep border-accent-deep/30',
+  프로토타입: 'bg-blue/12 text-blue-deep border-blue-deep/30',
+  '내부 도구': 'bg-ink/8 text-muted border-muted/30',
+};
+
+const dark: Record<Status, string> = {
+  '운영 중': 'bg-mint/15 text-mint border-mint/40',
+  '개발 중': 'bg-accent/20 text-accent border-accent/40',
+  프로토타입: 'bg-blue-on-dark/15 text-blue-on-dark border-blue-on-dark/40',
+  '내부 도구': 'bg-ivory/10 text-ivory/80 border-ivory/25',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-full border px-2.5 py-1 text-[0.8125rem] font-semibold whitespace-nowrap',
+    (onDark ? dark : light)[status],
+    className,
+  ]}
+>
+  {status}
+</span>

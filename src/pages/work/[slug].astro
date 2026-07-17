@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import StatusBadge from '../../components/ui/StatusBadge.astro';
+import CoverArt from '../../components/ui/CoverArt.astro';
+import Button from '../../components/ui/Button.astro';
+import { breadcrumbJsonLd } from '../../lib/metadata';
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => data.visibility !== 'private');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+const screenshots = d.screenshots.filter((s) => s.approved);
+const productUrl = project.id === 'd-vision'
+  ? 'https://dvision.dittoist.com'
+  : project.id === 'd-talk'
+    ? 'https://promo.dtalk.dittoist.com'
+    : undefined;
+---
+<BaseLayout title={d.title} description={d.summary} jsonLd={breadcrumbJsonLd([{ name: '홈', path: '/' }, { name: '구축 사례', path: '/work' }, { name: d.title, path: `/work/${project.id}` }])}>
+  <section class="work-hero"><Container>
+    <a class="back-link" href="/work">← 전체 사례</a>
+    <div class="work-hero-grid"><div><div class="flex flex-wrap gap-2"><StatusBadge status={d.status} onDark /><span class="client-badge">{d.clientType}</span></div><h1>{d.title}</h1><p>{d.summary}</p></div><div class="work-cover"><CoverArt src={d.coverImage} alt={d.title} seed={project.id} loading="eager" /></div></div>
+  </Container></section>
+  <Container class="case-layout">
+    <article class="case-content">
+      <section><span class="case-number">01</span><h2>해결하려던 문제</h2><p>{d.problem}</p></section>
+      <section><span class="case-number">02</span><h2>사용자와 환경</h2><p>{d.users}</p></section>
+      <section><span class="case-number">03</span><h2>구축 범위</h2><ul>{d.scope.map((v) => <li>{v}</li>)}</ul></section>
+      <section><span class="case-number">04</span><h2>핵심 기능</h2><ul>{d.features.map((v) => <li>{v}</li>)}</ul></section>
+      <section><span class="case-number">05</span><h2>시스템 구조</h2><p>{d.architecture}</p></section>
+      <section><span class="case-number">06</span><h2>결과와 현재 상태</h2><p>{d.outcome}</p>{d.ownershipNote && <p class="notice">{d.ownershipNote}</p>}</section>
+      {screenshots.length > 0 && <section><span class="case-number">07</span><h2>화면</h2><div class="screenshot-grid">{screenshots.map((s) => <figure><img src={s.src} alt={s.alt} loading="lazy" />{s.caption && <figcaption>{s.caption}</figcaption>}</figure>)}</div></section>}
+      <div class="prose"><Content /></div>
+    </article>
+    <aside class="case-sidebar"><div><h2>담당 범위</h2><ul>{d.role.map((v) => <li>{v}</li>)}</ul><h2>기술</h2><div class="tag-list">{d.stack.map((v) => <span>{v}</span>)}</div><div class="case-actions">{productUrl && <Button href={productUrl} target="_blank" rel="noopener noreferrer" class="w-full">제품 사이트 방문 <span aria-hidden="true">↗</span></Button>}<Button href="/contact" variant={productUrl ? 'secondary' : 'primary'} class="w-full">비슷한 프로젝트 상담하기</Button></div></div></aside>
+  </Container>
+</BaseLayout>

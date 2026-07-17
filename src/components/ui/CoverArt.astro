@@ -1,0 +1,237 @@
+---
+/**
+ * 사례 대표 이미지 자리 (PLAN.md §17 "이미지가 없어도 깨지지 않는 placeholder")
+ *
+ * coverImage 가 있으면 이미지를, 없으면 절제된 노드·연결선 그래픽을 그린다.
+ * 로봇·뇌·회로·네온 금지 (PLAN.md §11) — AI 코어에서 화면·데이터가 뻗어나가는 형태만 사용한다.
+ * 그래픽 색으로는 Coral/Blue 를 쓸 수 있다 (텍스트가 아니므로 대비 규칙 대상 아님).
+ */
+interface Props {
+  src?: string;
+  alt: string;
+  /** 결정적 변주용 — 같은 사례는 항상 같은 그래픽 */
+  seed: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const { src, alt, seed, class: className = '', loading = 'lazy' } = Astro.props;
+
+// 슬러그를 숫자로 바꿔 배치를 조금씩 다르게 한다.
+const hash = [...seed].reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) >>> 0, 7);
+const angle = (hash % 60) - 30;
+const nodes = [
+  { x: 32, y: 30 },
+  { x: 128, y: 22 },
+  { x: 40, y: 96 },
+  { x: 136, y: 104 },
+];
+const imagePosition = seed === 'd-vision'
+  ? 'cover-art-image--left-top'
+  : seed === 'ticketing-platform'
+    ? 'cover-art-image--ticketing'
+    : 'cover-art-image--top';
+const frameTone = seed === 'd-vision'
+  ? 'cover-art-shell--vision'
+  : seed === 'd-talk'
+    ? 'cover-art-shell--talk'
+    : seed === 'ticketing-platform'
+      ? 'cover-art-shell--ticketing'
+      : '';
+---
+
+{
+  src ? (
+    <div class:list={['cover-art-shell', frameTone, className]}>
+      <div class="cover-art-browser">
+        <div class="cover-art-chrome" aria-hidden="true">
+          <span class="cover-art-dots"><i></i><i></i><i></i></span>
+          <span class="cover-art-address"></span>
+        </div>
+        <div class="cover-art-viewport">
+          <img
+            src={src}
+            alt={alt}
+            loading={loading}
+            decoding="async"
+            class:list={['cover-art-image', imagePosition]}
+          />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div
+      class:list={['relative h-full w-full overflow-hidden bg-ink', className]}
+      role="img"
+      aria-label={`${alt} — 대표 이미지 준비 중`}
+    >
+      <svg
+        viewBox="0 0 176 128"
+        class="h-full w-full"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <g transform={`rotate(${angle} 88 64)`}>
+          {nodes.map((n) => (
+            <line
+              x1="88"
+              y1="64"
+              x2={n.x}
+              y2={n.y}
+              stroke="var(--color-blue)"
+              stroke-width="1"
+              opacity="0.5"
+            />
+          ))}
+          {nodes.map((n) => (
+            <rect
+              x={n.x - 13}
+              y={n.y - 9}
+              width="26"
+              height="18"
+              rx="3"
+              fill="none"
+              stroke="var(--color-blue)"
+              stroke-width="1"
+              opacity="0.75"
+            />
+          ))}
+          <circle cx="88" cy="64" r="15" fill="var(--color-accent)" opacity="0.9" />
+          <circle
+            cx="88"
+            cy="64"
+            r="24"
+            fill="none"
+            stroke="var(--color-mint)"
+            stroke-width="1"
+            opacity="0.6"
+          />
+        </g>
+      </svg>
+    </div>
+  )
+}
+
+<style>
+  .cover-art-shell {
+    --frame-from: #121b2d;
+    --frame-to: #26344b;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: clamp(0.3rem, 0.9vw, 0.45rem);
+    border-radius: 0 0 clamp(0.55rem, 1.4vw, 0.8rem) clamp(0.55rem, 1.4vw, 0.8rem);
+    background:
+      radial-gradient(circle at 82% 12%, rgb(255 255 255 / 0.15), transparent 34%),
+      linear-gradient(135deg, var(--frame-from), var(--frame-to));
+  }
+
+  .cover-art-shell::before {
+    position: absolute;
+    inset: auto -10% -45% 25%;
+    height: 90%;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.08);
+    filter: blur(28px);
+    content: '';
+  }
+
+  .cover-art-shell--vision {
+    --frame-from: #071222;
+    --frame-to: #17414b;
+  }
+
+  .cover-art-shell--talk {
+    --frame-from: #0d2446;
+    --frame-to: #2169c3;
+  }
+
+  .cover-art-shell--ticketing {
+    --frame-from: #281b22;
+    --frame-to: #a04f2d;
+  }
+
+  .cover-art-browser {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.42);
+    border-radius: clamp(0.45rem, 1.3vw, 0.72rem);
+    background: #fff;
+    box-shadow: 0 14px 32px rgb(5 10 22 / 0.34);
+  }
+
+  .cover-art-chrome {
+    position: relative;
+    display: flex;
+    min-height: clamp(18px, 7%, 24px);
+    flex: 0 0 auto;
+    align-items: center;
+    padding: 0 0.55rem;
+    border-bottom: 1px solid #dce1e8;
+    background: #f3f5f8;
+  }
+
+  .cover-art-dots {
+    display: flex;
+    gap: 0.24rem;
+  }
+
+  .cover-art-dots i {
+    width: clamp(3px, 0.7vw, 6px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #bdc5d0;
+  }
+
+  .cover-art-address {
+    position: absolute;
+    left: 50%;
+    width: min(42%, 11rem);
+    height: clamp(4px, 27%, 7px);
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #e1e5eb;
+  }
+
+  .cover-art-viewport {
+    min-height: 0;
+    flex: 1;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .cover-art-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cover-art-image--top {
+    object-position: center top;
+  }
+
+  .cover-art-image--left-top {
+    object-position: left top;
+  }
+
+  .cover-art-image--ticketing {
+    width: 62.5%;
+    height: auto;
+    margin: 0 auto;
+    object-fit: initial;
+  }
+
+  @media (max-width: 600px) {
+    .cover-art-shell {
+      padding: 0.3rem;
+    }
+  }
+</style>

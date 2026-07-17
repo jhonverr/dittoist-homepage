@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import StatusBadge from '../ui/StatusBadge.astro';
+import CoverArt from '../ui/CoverArt.astro';
+
+/**
+ * 사례 카드 (PLAN.md §6)
+ * 카드 정보: 프로젝트명, 한 줄 문제 정의, 핵심 기능 3개, 형태, 상태, 기술 태그 최대 4개
+ */
+interface Props {
+  project: CollectionEntry<'projects'>;
+  loading?: 'lazy' | 'eager';
+}
+
+const { project, loading = 'lazy' } = Astro.props;
+const d = project.data;
+
+const features = d.features.slice(0, 3);
+const stack = d.stack.slice(0, 4); // 최대 4개 (PLAN.md §6)
+const href = `/work/${project.id}`;
+---
+
+<article
+  class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ivory-deep bg-surface transition-shadow duration-200 hover:shadow-lg focus-within:shadow-lg"
+>
+  <div class="aspect-[16/9] w-full overflow-hidden bg-surface">
+    <CoverArt src={d.coverImage} alt={d.title} seed={project.id} loading={loading} />
+  </div>
+
+  <div class="flex flex-1 flex-col gap-4 p-6">
+    <div class="flex flex-wrap items-center gap-2">
+      <StatusBadge status={d.status} />
+      <span class="text-[0.8125rem] font-medium text-muted">{d.clientType}</span>
+    </div>
+
+    <h3 class="text-xl leading-snug font-bold">
+      {/* 카드 전체를 클릭 영역으로 만들되, 링크 텍스트는 제목 하나만 남긴다 */}
+      <a href={href} class="after:absolute after:inset-0 after:content-['']" data-event="project_view">
+        {d.title}
+      </a>
+    </h3>
+
+    <p class="text-[var(--text-small)] leading-relaxed text-muted">{d.summary}</p>
+
+    <ul class="flex flex-col gap-1.5 text-[var(--text-small)]">
+      {
+        features.map((f) => (
+          <li class="flex gap-2">
+            <span aria-hidden="true" class="text-accent-deep">
+              ·
+            </span>
+            <span>{f}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-auto flex flex-wrap gap-1.5 pt-2">
+      {
+        stack.map((s) => (
+          <span class="rounded-md bg-ivory px-2 py-1 text-[0.75rem] font-medium text-muted">
+            {s}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</article>

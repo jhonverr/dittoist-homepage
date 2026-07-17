@@ -1,0 +1,65 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { AnalyticsEvent } from '../../lib/site';
+
+/**
+ * 버튼 / CTA 링크 (PLAN.md §11.1, §16)
+ *
+ * primary 는 Coral 배경 + Ink 라벨이다. Coral 위 흰색 텍스트는 대비 2.82:1 로
+ * AA 미달이므로 사용하지 않는다 (tokens.css 참조).
+ * 터치 영역 최소 44px 를 모든 변형에서 보장한다.
+ */
+type Variant = 'primary' | 'secondary' | 'ghost';
+type Size = 'md' | 'lg';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'type'> {
+  href?: string;
+  variant?: Variant;
+  size?: Size;
+  /** 다크 섹션 위에 놓일 때 secondary/ghost 의 색을 뒤집는다 */
+  onDark?: boolean;
+  /** 클릭 시 발생시킬 분석 이벤트 (PLAN.md §15) */
+  event?: AnalyticsEvent;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  onDark = false,
+  event,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors duration-200 min-h-11 text-center';
+
+const sizes: Record<Size, string> = {
+  md: 'px-5 py-3 text-[var(--text-small)]',
+  lg: 'px-7 py-4 text-[var(--text-body)]',
+};
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-accent text-on-accent hover:bg-[#ff5733] shadow-sm',
+  secondary: onDark
+    ? 'border-2 border-ivory/40 text-ivory hover:bg-ivory/10'
+    : 'border-2 border-ink/20 text-ink hover:bg-ink/5',
+  ghost: onDark ? 'text-mint hover:bg-ivory/10' : 'text-accent-deep hover:bg-ink/5',
+};
+
+const classes = [base, sizes[size], variants[variant], className];
+const Tag = href ? 'a' : 'button';
+const buttonType: 'button' | undefined = href ? undefined : 'button';
+---
+
+<Tag
+  href={href}
+  class:list={classes}
+  data-event={event}
+  type={buttonType}
+  {...rest}
+>
+  <slot />
+</Tag>

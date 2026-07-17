@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import { CONTACT } from '../lib/site';
+---
+<BaseLayout title="프로젝트 상담" description="해결하려는 업무 문제를 알려주시면 AI 적용 방법과 현실적인 구축 범위를 함께 정리합니다.">
+  <Section tone="ink"><div class="contact-layout"><div><SectionHeading as="h1" eyebrow="CONTACT" title="만들고 싶은 것보다, 해결하고 싶은 일을 알려주세요." lead="정리된 기획서가 없어도 괜찮습니다. 현재 업무 방식과 불편한 지점에서 시작합니다." onDark /><div class="contact-direct"><p>직접 이메일</p><a href={`mailto:${CONTACT.email}`} data-event="email_click">{CONTACT.email}</a></div></div><ContactForm /></div></Section>
+</BaseLayout>

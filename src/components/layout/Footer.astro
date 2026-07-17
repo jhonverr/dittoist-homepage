@@ -1,0 +1,24 @@
+---
+import Container from '../ui/Container.astro';
+import { BUSINESS, CONTACT } from '../../lib/site';
+---
+<footer class="bg-ink py-14 text-ivory">
+  <Container class="footer-grid">
+    <div>
+      <a href="/" class="logo logo-dark"><span>D:</span> Dittoist</a>
+      <p class="mt-4 max-w-[34rem] text-[var(--text-small)] text-ivory/65">AI 에이전트를 중심으로 업무에 필요한 소프트웨어를 끝까지 구축합니다.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/work">구축 사례</a><a href="/contact">상담하기</a>
+      <a href="/privacy">개인정보처리방침</a><a href="/terms">이용 안내</a>
+    </div>
+    <div class="text-[var(--text-small)] text-ivory/65">
+      <p>{BUSINESS.companyName}</p>
+      {BUSINESS.ceo && <p>대표 {BUSINESS.ceo}</p>}
+      {BUSINESS.registrationNumber && <p>사업자등록번호 {BUSINESS.registrationNumber}</p>}
+      <a href={`mailto:${CONTACT.email}`} data-event="email_click">{CONTACT.email}</a>
+      {CONTACT.phone && <a href={`tel:${CONTACT.phone}`} data-event="phone_click">{CONTACT.phone}</a>}
+    </div>
+  </Container>
+  <Container class="mt-10 border-t border-ivory/15 pt-6 text-sm text-ivory/50">© 2026 Dittoist. All rights reserved.</Container>
+</footer>

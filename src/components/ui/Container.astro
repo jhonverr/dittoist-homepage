@@ -1,0 +1,16 @@
+---
+/** 최대 콘텐츠 폭 1280px + 좌우 여백 (PLAN.md §11.3) */
+interface Props {
+  as?: 'div' | 'section' | 'header' | 'footer' | 'nav' | 'main';
+  class?: string;
+  /** 본문 읽기용 좁은 폭 */
+  narrow?: boolean;
+}
+
+const { as: Tag = 'div', class: className = '', narrow = false } = Astro.props;
+const width = narrow ? 'max-w-[68ch]' : 'max-w-(--container-content)';
+---
+
+<Tag class:list={['mx-auto w-full px-5 sm:px-6 lg:px-8', width, className]}>
+  <slot />
+</Tag>

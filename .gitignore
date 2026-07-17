@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.env
+.env.*
+.dev.vars
+!.env.example
+
+# Local research and source material (not part of the deployable website)
+/portfolio_raw.json
+/portfolio_raw.md
+/dittoist_homepage_plan_v3_final.md
+/*-screenshot.png

@@ -1,0 +1,60 @@
+---
+/**
+ * 섹션 제목 블록 (PLAN.md §11.2, §15 의미 있는 H1–H3)
+ * eyebrow → h2 → lead 순서를 고정해 모든 섹션의 리듬을 맞춘다.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  onDark?: boolean;
+  align?: 'left' | 'center';
+  /** 제목 레벨 — 페이지당 h1 은 하나만 (PLAN.md §15) */
+  as?: 'h1' | 'h2';
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  onDark = false,
+  align = 'left',
+  as: Tag = 'h2',
+  class: className = '',
+} = Astro.props;
+
+const eyebrowColor = onDark ? 'text-mint' : 'text-accent-deep';
+const leadColor = onDark ? 'text-ivory/75' : 'text-muted';
+---
+
+<div
+  class:list={[
+    'flex flex-col gap-4',
+    align === 'center' ? 'items-center text-center' : 'items-start',
+    className,
+  ]}
+>
+  {
+    eyebrow && (
+      <p class:list={['text-[var(--text-small)] font-semibold tracking-wide', eyebrowColor]}>
+        {eyebrow}
+      </p>
+    )
+  }
+  <Tag class="text-(length:--text-section) leading-(--text-section--line-height) tracking-(--text-section--letter-spacing) max-w-[22ch]">
+    {title}
+  </Tag>
+  {
+    lead && (
+      <p
+        class:list={[
+          'text-(length:--text-lead) leading-(--text-lead--line-height) max-w-[62ch]',
+          leadColor,
+        ]}
+      >
+        {lead}
+      </p>
+    )
+  }
+</div>

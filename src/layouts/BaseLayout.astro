@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import { canonical, formatTitle, organizationJsonLd, type PageMeta } from '../lib/metadata';
+import { SITE } from '../lib/site';
+
+interface Props extends PageMeta {
+  isHome?: boolean;
+  jsonLd?: unknown | unknown[];
+}
+
+const { title, description, image = '/favicon.svg', noindex = false, isHome = false, jsonLd } = Astro.props;
+const pageTitle = formatTitle(title, isHome);
+const pageUrl = canonical(Astro.url.pathname);
+const imageUrl = new URL(image, SITE.url).href;
+const schemas = [organizationJsonLd(), ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])];
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">본문으로 바로가기</a>
+    <Header />
+    <main id="main-content"><slot /></main>
+    <Footer />
+    <a class="mobile-contact-cta" href="/contact" data-event="hero_contact_click">상담하기</a>
+    <script>
+      import { captureUtm, trackEvent } from '../lib/analytics';
+      captureUtm();
+      document.querySelectorAll<HTMLElement>('[data-event]').forEach((el) => {
+        el.addEventListener('click', () => {
+          const name = el.dataset.event;
+          if (name) trackEvent(name as Parameters<typeof trackEvent>[0]);
+        });
+      });
+      const observer = new IntersectionObserver(
+        (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-revealed')),
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

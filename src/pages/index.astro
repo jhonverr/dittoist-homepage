@@ -1,0 +1,118 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import ProjectCard from '../components/cards/ProjectCard.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import { SERVICES, SERVICES_CLOSING } from '../data/services';
+import { SITE } from '../lib/site';
+import { serviceJsonLd } from '../lib/metadata';
+
+const projects = (await getCollection('projects', ({ data }) => data.visibility !== 'private'))
+  .filter((p) => p.data.isFeatured).sort((a, b) => (a.data.featuredRank ?? 99) - (b.data.featuredRank ?? 99));
+const problems = [
+  '반복 문의와 접수를 AI가 대신 처리하게 하고 싶다.',
+  '사내 문서와 매뉴얼을 검색하고 답하는 AI가 필요하다.',
+  '예약·보고·정산 업무를 자동화하고 싶다.',
+  '현장 작업자에게 단계별 가이드를 제공하고 싶다.',
+  '고객 화면과 관리자 시스템을 함께 만들고 싶다.',
+  '엑셀과 수작업을 전용 프로그램으로 바꾸고 싶다.',
+];
+const differences = [
+  ['AI만 만들지 않습니다', '모델 호출에서 끝나지 않고 화면, 관리자 기능, 데이터 구조와 운영 환경까지 구현합니다.'],
+  ['기획부터 배포까지 연결합니다', '요구 정리부터 설계, 개발, 테스트, 배포와 이관을 하나의 흐름으로 진행합니다.'],
+  ['업무에 맞게 AI를 통제합니다', '도구 호출, 승인 절차, 권한과 예외 처리를 포함해 실제 업무 규칙 안에서 작동하게 만듭니다.'],
+  ['작게 검증하고 확장합니다', '핵심 기능을 먼저 확인하고 실사용 결과를 기준으로 다음 범위를 결정합니다.'],
+];
+const process = ['문제 정의', '구축 범위 설계', '프로토타입·개발', '테스트·배포', '운영·고도화'];
+---
+<BaseLayout title="AI를 실제로 작동하는 서비스로 만듭니다 | 디토이스트" description={SITE.description} isHome jsonLd={serviceJsonLd(SERVICES)}>
+  <section class="hero">
+    <Container class="hero-grid">
+      <div class="reveal">
+        <p class="eyebrow">{SITE.motto}</p>
+        <h1>AI를 도입하는 데서 끝내지 않습니다.<br /><em>실제로 작동하는 서비스</em>로 만듭니다.</h1>
+        <p class="hero-lead">{SITE.description}</p>
+        <div class="flex flex-wrap gap-3">
+          <Button href="/contact" size="lg" event="hero_contact_click">프로젝트 상담하기 <span aria-hidden="true">→</span></Button>
+          <Button href="/work" variant="secondary" size="lg" onDark event="hero_work_click">구축 사례 보기</Button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="AI를 중심으로 웹, 모바일, 음성, 데이터 시스템이 위성처럼 연결된 구조">
+        <div class="system-orbit orbit-one"></div><div class="system-orbit orbit-two"></div>
+        <div class="orbit-core"><small>DITTOIST</small><strong>AI</strong><span>CORE</span></div>
+        <div class="orbit-node orbit-web"><i>◫</i><span>Web·SaaS</span></div>
+        <div class="orbit-node orbit-mobile"><i>▯</i><span>Mobile</span></div>
+        <div class="orbit-node orbit-data"><i>⌁</i><span>Data·API</span></div>
+        <div class="orbit-node orbit-voice"><i>◉</i><span>Voice AI</span></div>
+        <div class="orbit-caption"><span></span> 문제에서 운영까지 연결</div>
+      </div>
+    </Container>
+    <Container class="trust-bar">
+      {['자체 AI 제품 2종 개발', 'AI·웹·모바일 통합 구축', '요구 분석부터 배포까지', '대표가 주요 설계·검수 참여'].map((v) => <span>{v}</span>)}
+    </Container>
+  </section>
+
+  <Section id="problems" tone="ivory">
+    <SectionHeading eyebrow="BUSINESS PROBLEMS" title="이런 업무, 시스템으로 바꿀 수 있습니다." lead="기술 이름보다 지금 반복되는 일과 막혀 있는 흐름에서 시작합니다." />
+    <div class="problem-grid reveal">{problems.map((p, i) => <article><span>{String(i + 1).padStart(2, '0')}</span><h3>{p}</h3></article>)}</div>
+  </Section>
+
+  <Section id="services" tone="surface">
+    <SectionHeading eyebrow="SERVICES" title="AI부터 화면과 운영 시스템까지 한 번에 구축합니다." />
+    <div class="service-grid">
+      {SERVICES.map((s, i) => <article class="service-card reveal" data-event="service_card_click"><span>0{i + 1}</span><h3>{s.title}</h3><p>{s.outcome}</p><ul>{s.items.slice(0, 4).map((v) => <li>{v}</li>)}</ul></article>)}
+    </div>
+    <p class="closing-copy">{SERVICES_CLOSING}</p>
+  </Section>
+
+  <Section id="difference" tone="ink">
+    <SectionHeading eyebrow="WHY DITTOIST" title="컨설팅 문서가 아니라, 실행되는 결과물을 만듭니다." onDark />
+    <div class="difference-list">{differences.map(([title, text], i) => <article class="reveal"><span>0{i + 1}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}</div>
+  </Section>
+
+  <Section id="process" tone="ivory">
+    <SectionHeading eyebrow="PROCESS" title="아이디어만 있어도 시작할 수 있습니다." lead="만들고 싶은 기능이 아직 선명하지 않아도, 현재 문제와 업무 흐름을 함께 정리해 현실적인 범위를 찾습니다." />
+    <ol class="process-list">{process.map((v, i) => <li class="reveal"><span>{i + 1}</span><strong>{v}</strong></li>)}</ol>
+    <div class="principles"><h3>프로젝트 운영 원칙</h3><ul><li>가능한 것과 불확실한 것을 구분해 안내합니다.</li><li>기능·제외 범위·일정·비용을 문서로 합의합니다.</li><li>합의한 주기로 진행 상황과 작동 화면을 공유합니다.</li><li>배포 후 소스와 운영 이관 문서를 정리합니다.</li></ul></div>
+  </Section>
+
+  <Section id="work" tone="surface">
+    <div class="section-title-row"><SectionHeading eyebrow="SELECTED WORK" title="실제로 만든 제품과 운영되는 시스템입니다." /><Button href="/work" variant="secondary">전체 사례 보기 →</Button></div>
+    <div class="project-grid">{projects.map((project, i) => <ProjectCard project={project} loading={i === 0 ? 'eager' : 'lazy'} />)}</div>
+  </Section>
+
+  <Section id="products" tone="ink">
+    <SectionHeading eyebrow="D: PRODUCTS" title="우리는 우리가 제안하는 기술을 직접 제품으로 만듭니다." onDark />
+    <div class="product-grid">
+      <a href="/work/d-vision" class="product-panel reveal"><span class="product-mark">D:Vision</span><h3>현장 문서를 AI 실행 시나리오로</h3><p>SOP를 단계별 가이드로 바꾸고 VLM 관측, 사람 승인, 스마트글래스와 관리자 콘솔을 연결합니다.</p><small>자체 제품 · 개발 중(기술 검증 완료)</small></a>
+      <a href="/work/d-talk" class="product-panel reveal"><span class="product-mark">D:Talk</span><h3>놓치는 전화를 예약과 안내로</h3><p>실시간 음성 AI, 매장 지식 베이스, 예약·캘린더와 운영자 화면을 하나의 서비스로 연결합니다.</p><small>자체 제품 · 운영 중</small></a>
+    </div>
+  </Section>
+
+  <Section tone="ivory">
+    <SectionHeading eyebrow="CAPABILITIES" title="기술은 목적이 아니라, 작동하는 구조를 만드는 재료입니다." />
+    <div class="capability-grid">
+      <article><h3>AI</h3><p>LLM·RAG, 멀티 에이전트, STT/TTS, VLM, 도구 호출과 업무 워크플로</p></article>
+      <article><h3>애플리케이션</h3><p>웹·관리자 대시보드, Android, 데스크톱, WebSocket 실시간 통신</p></article>
+      <article><h3>데이터·인프라</h3><p>PostgreSQL·Oracle, API 연동, Docker·클라우드 배포, 인증과 모니터링</p></article>
+    </div>
+  </Section>
+
+  <Section id="about" tone="surface">
+    <div class="about-grid">
+      <SectionHeading eyebrow="ABOUT DITTOIST" title="AI로 세상을 널리 이롭게." />
+      <div><p class="lead-copy">기술은 기능에서 시작되지 않습니다. 사람과 업무의 불편을 이해하는 것에서 시작됩니다.</p><p>디토이스트는 AI를 보여주기 위한 기능으로 만들지 않습니다. 반복되는 일을 줄이고, 놓치던 기회를 연결하고, 필요한 정보를 더 쉽게 사용할 수 있도록 만듭니다. 고객의 문제에 맞춰 기술을 설계하고, 해결책이 실제 현장에서 작동할 때까지 함께합니다.</p><p class="name-story"><strong>Ditto</strong> — 이로운 답, 동기화, 확장되는 기술. <strong>-ist</strong> — 그것을 실현하는 사람.</p></div>
+    </div>
+  </Section>
+
+  <Section id="contact" tone="ink">
+    <div class="contact-layout">
+      <SectionHeading eyebrow="START A PROJECT" title="만들고 싶은 것보다, 해결하고 싶은 일을 알려주세요." lead="아이디어가 구체적이지 않아도 괜찮습니다. 현재 업무 방식과 불편한 지점부터 함께 정리합니다." onDark />
+      <ContactForm />
+    </div>
+  </Section>
+</BaseLayout>

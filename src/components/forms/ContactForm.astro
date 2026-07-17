@@ -1,0 +1,118 @@
+---
+import { CONTACT } from '../../lib/site';
+import { HONEYPOT_FIELD, RESULT_OPTIONS } from '../../lib/validation';
+const formId = `contact-${Math.random().toString(36).slice(2)}`;
+const contactApiUrl = import.meta.env.PUBLIC_CONTACT_API_URL || 'https://api.dtalk.dittoist.com/api/website-contact';
+---
+<form class="contact-form" data-contact-form data-api-url={contactApiUrl} novalidate>
+  <input type="hidden" name="renderedAt" value={Date.now()} />
+  <div class="honeypot" aria-hidden="true">
+    <label for={`${formId}-website`}>웹사이트</label>
+    <input id={`${formId}-website`} name={HONEYPOT_FIELD} tabindex="-1" autocomplete="off" />
+  </div>
+  <div class="form-grid">
+    <label><span class="field-label">담당자명 <b aria-hidden="true">*</b></span><input name="name" autocomplete="name" required maxlength="50" /></label>
+    <label><span class="field-label">회사·기관명</span><input name="company" autocomplete="organization" maxlength="100" /></label>
+    <label><span class="field-label">이메일</span><input name="email" type="email" autocomplete="email" maxlength="254" /></label>
+    <label><span class="field-label">연락처</span><input name="phone" type="tel" autocomplete="tel" maxlength="30" /></label>
+    <label><span class="field-label">희망 결과물</span>
+      <select name="desiredResult"><option value="">선택해 주세요</option>{RESULT_OPTIONS.map((v) => <option>{v}</option>)}</select>
+    </label>
+    <label><span class="field-label">예상 일정</span><input name="timeline" placeholder="예: 3개월 이내" maxlength="100" /></label>
+    <label class="full"><span class="field-label">해결하려는 문제 <b aria-hidden="true">*</b></span><textarea name="problem" rows="6" minlength="10" maxlength="3000" required placeholder="현재 어떤 방식으로 일하고 있고, 무엇이 가장 불편한지 알려주세요."></textarea></label>
+    <label><span class="field-label">예산 범위</span><input name="budget" placeholder="선택 입력" maxlength="100" /></label>
+    <label><span class="field-label">기존 시스템·데이터</span><input name="existingSystem" placeholder="예: ERP, 엑셀, 사내 문서" maxlength="500" /></label>
+  </div>
+  <label class="consent"><input name="consent" type="checkbox" required /> <span><a href="/privacy">개인정보 수집·이용 안내</a>를 확인했으며 동의합니다. *</span></label>
+  <p class="form-status" role="alert" tabindex="-1"></p>
+  <button type="submit" class="submit-button">상담 내용 보내기</button>
+  <p class="form-fallback">발송이 되지 않으면 <a href={`mailto:${CONTACT.email}`} data-event="email_click">{CONTACT.email}</a>로 보내주세요.</p>
+</form>
+<script>
+  import { trackEvent, getUtm } from '../../lib/analytics';
+  import {
+    FIELD_ORDER,
+    validateContact,
+    hasErrors,
+    type ContactInput,
+  } from '../../lib/validation';
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const mountedAt = Date.now();
+    let started = false;
+    form.addEventListener('input', () => {
+      if (!started) { started = true; trackEvent('contact_start'); }
+    });
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>('.form-status');
+      const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
+      if (!status || !submit) return;
+      status.textContent = '';
+      status.className = 'form-status';
+
+      const formData = new FormData(form);
+      const input: ContactInput = {
+        name: String(formData.get('name') ?? ''),
+        email: String(formData.get('email') ?? ''),
+        phone: String(formData.get('phone') ?? ''),
+        problem: String(formData.get('problem') ?? ''),
+        consent: formData.has('consent'),
+        company: String(formData.get('company') ?? ''),
+        desiredResult: String(formData.get('desiredResult') ?? ''),
+        timeline: String(formData.get('timeline') ?? ''),
+        budget: String(formData.get('budget') ?? ''),
+        existingSystem: String(formData.get('existingSystem') ?? ''),
+      };
+      const errors = validateContact(input);
+      if (hasErrors(errors)) {
+        const firstField = FIELD_ORDER.find((field) => errors[field]);
+        status.textContent = firstField ? errors[firstField] ?? '' : errors.form ?? '입력 내용을 확인해 주세요.';
+        status.className = 'form-status error';
+        const target = firstField ? form.elements.namedItem(firstField) : null;
+        if (target instanceof HTMLElement) target.focus();
+        else status.focus();
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = '보내는 중…';
+      const data = Object.fromEntries(formData);
+      data.consent = 'true';
+      data.renderedAt = String(mountedAt);
+      try {
+        const apiUrl = form.dataset.apiUrl;
+        if (!apiUrl) throw new Error('상담 API 주소가 설정되지 않았습니다.');
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ ...data, utm: getUtm() }),
+        });
+        const contentType = response.headers.get('content-type') ?? '';
+        const result = contentType.includes('application/json')
+          ? await response.json() as { message?: string; detail?: string | Array<{ msg?: string }> }
+          : null;
+        if (!response.ok || !result) {
+          const detail = typeof result?.detail === 'string'
+            ? result.detail
+            : Array.isArray(result?.detail)
+              ? result.detail[0]?.msg
+              : undefined;
+          throw new Error(result?.message || detail || '현재 상담 메일을 발송할 수 없습니다.');
+        }
+        status.textContent = '상담 내용이 전달되었습니다. 확인 후 연락드리겠습니다.';
+        status.className = 'form-status success';
+        form.reset();
+        trackEvent('contact_submit_success');
+      } catch (error) {
+        status.textContent = `${error instanceof Error ? error.message : '발송하지 못했습니다.'} 아래 이메일로 직접 보내주셔도 됩니다.`;
+        status.className = 'form-status error';
+        trackEvent('contact_submit_error');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = '상담 내용 보내기';
+        status.focus();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,38 @@
+---
+import Container from './Container.astro';
+
+/**
+ * 섹션 래퍼 (PLAN.md §11.3)
+ * 다크(Ink)·라이트(Ivory) 섹션을 교차 배치해 리듬을 만든다.
+ * 한 섹션에 메시지 하나 — 넓은 여백을 기본값으로 둔다.
+ */
+type Tone = 'ivory' | 'ink' | 'surface';
+
+interface Props {
+  id?: string;
+  tone?: Tone;
+  class?: string;
+  /** false 면 Container 없이 슬롯을 그대로 둔다 (전폭 레이아웃용) */
+  contained?: boolean;
+}
+
+const { id, tone = 'ivory', class: className = '', contained = true } = Astro.props;
+
+const tones: Record<Tone, string> = {
+  ivory: 'bg-ivory text-ink',
+  surface: 'bg-surface text-ink',
+  ink: 'bg-ink text-ivory section-dark',
+};
+---
+
+<section id={id} class:list={['py-20 sm:py-24 lg:py-32', tones[tone], className]}>
+  {
+    contained ? (
+      <Container>
+        <slot />
+      </Container>
+    ) : (
+      <slot />
+    )
+  }
+</section>
