@@ -22,7 +22,7 @@ status: '운영 중'
 visibility: 'public'
 clientType: '자체 제품'
 role: ['제품 기획', '독서 경험·UI 설계', 'Flutter 앱 개발', '콘텐츠·Q&A 백엔드 개발', '결제·배포 구성']
-ownershipNote: '디토이스트 자체 제품입니다. 웹 버전은 공개 운영 중이며 Android 앱 출시를 준비하고 있습니다.'
+ownershipNote: '디토이스트 자체 제품입니다. 웹과 Android 앱을 운영하고 있습니다.'
 approvedClaims: []
 coverImage: '/projects/webnovel-reader-preview.webp'
 screenshots:
@@ -50,9 +50,8 @@ architecture: |
   Google Play 구매 검증과 Q&A 사용량을 관리합니다. AI Q&A는 SQLite FTS5로 현재 독자가
   읽은 범위 안의 관련 문단만 검색해 Gemini에 전달하므로 이후 전개의 스포일러를 차단합니다.
 outcome: |
-  웹 버전을 공개 운영해 무료로 읽을 수 있으며, 시즌 1의 26화 카탈로그와 독서·탐색·Q&A
-  흐름을 완성했습니다. Android 앱은 스토어 출시를 준비하고 있습니다. 다운로드나 매출 성과는
-  출시 전이므로 표기하지 않습니다.
+  웹과 Android 앱을 운영 중이며, 웹에서는 무료 회차를 바로 읽을 수 있습니다. 시즌 1의
+  26화 카탈로그와 독서·탐색·Q&A 흐름을 완성했습니다. 다운로드나 매출 성과는 공개하지 않습니다.
 relatedService: 'web-saas'
 ---
 
