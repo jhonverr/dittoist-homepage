@@ -132,7 +132,7 @@
   .principles ul { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem 2rem; color: rgb(246 242 234 / .7); font-size: var(--text-small); }
   .section-title-row { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
   .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 3.5rem; }
-  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 4rem; }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 4rem; }
   .product-panel { min-height: 390px; padding: clamp(2rem, 4vw, 3.5rem); border: 1px solid rgb(246 242 234 / .18); border-radius: 1.5rem; background: linear-gradient(145deg, var(--color-ink-soft), var(--color-ink)); transition: border-color .2s, transform .2s; }
   .product-panel:hover { border-color: var(--color-mint); transform: translateY(-4px); }
   .product-mark { color: var(--color-mint); font-size: 1.55rem; font-weight: 800; }
@@ -212,7 +212,7 @@
   .hero-visual { min-height: 340px; }
   .trust-bar { grid-template-columns: 1fr 1fr; }
   .problem-grid { grid-template-columns: 1fr 1fr; }
-  .service-grid, .capability-grid { grid-template-columns: 1fr 1fr; }
+  .service-grid, .product-grid, .capability-grid { grid-template-columns: 1fr 1fr; }
   .process-list { grid-template-columns: repeat(3, 1fr); }
   .case-layout { grid-template-columns: 1fr; }
   .case-sidebar > div { position: static; }
