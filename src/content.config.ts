@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 /** PLAN.md §13 데이터 모델 */
-const projectStatus = z.enum(['운영 중', '개발 중', '프로토타입', '내부 도구']);
+const projectStatus = z.enum(['운영 중', '개발 완료', '개발 중', '프로토타입', '내부 도구']);
 const projectVisibility = z.enum(['public', 'anonymized', 'private']);
 const clientType = z.enum(['자체 제품', '고객 프로젝트', '내부 도구']);
 
