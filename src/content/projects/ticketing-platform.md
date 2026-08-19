@@ -22,7 +22,7 @@ status: '운영 중'
 visibility: 'public'
 clientType: '고객 프로젝트'
 role: ['요구사항 정리', '데이터 구조 설계', '고객용 웹 개발', '관리자 페이지 개발', '배포·이관']
-ownershipNote: '고객 프로젝트입니다. 공개 운영 화면과 관리자 공연 관리 화면만 게시하며 예약자 정보는 포함하지 않습니다.'
+ownershipNote: '일반 직장인들이 함께하는 뮤지컬 동호회의 공연 예매와 운영에 실제로 사용되고 있습니다.'
 approvedClaims: ['CLM-004']
 coverImage: '/projects/ticketing-live-preview-v4.webp'
 screenshots:
@@ -32,7 +32,7 @@ screenshots:
     approved: true
   - src: '/projects/ticketing-admin-live.webp'
     alt: '더열정 뮤지컬 관리자 페이지의 공연 관리 화면'
-    caption: '공연 등록·복사와 공개 상태를 관리하는 실제 운영 화면 — 예약자 개인정보는 포함하지 않았습니다.'
+    caption: '공연 등록·복사와 공개 상태를 관리하는 실제 운영 화면'
     approved: true
 isFeatured: true
 featuredRank: 3
@@ -50,8 +50,8 @@ architecture: |
   상태를 관계형으로 설계하고, 관리자 화면은 별도 라우트와 권한으로 분리했습니다.
   예약 취소·공연 삭제는 기록을 지우지 않고 상태로 남겨 운영 이력을 추적할 수 있게 했습니다.
 outcome: |
-  실제 서비스로 운영 중입니다. 전화·메신저로 흩어져 있던 예약을 한 화면에서 관리하게 되었습니다.
-  구체적인 예약 건수·운영 효율 수치는 발주처 자료라 공개하지 않습니다.
+  일반 직장인들이 함께하는 뮤지컬 동호회의 실제 예매 서비스로 운영 중입니다.
+  전화·메신저로 흩어져 있던 공연 예약을 한 화면에서 편리하게 관리하고 있습니다.
 relatedService: 'web-saas'
 ---
 
