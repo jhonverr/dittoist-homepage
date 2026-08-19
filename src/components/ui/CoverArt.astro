@@ -28,9 +28,7 @@ const nodes = [
 ];
 const imagePosition = seed === 'd-vision'
   ? 'cover-art-image--left-top'
-  : seed === 'ticketing-platform'
-    ? 'cover-art-image--ticketing'
-    : 'cover-art-image--top';
+  : 'cover-art-image--top';
 const frameTone = seed === 'd-vision'
   ? 'cover-art-shell--vision'
   : seed === 'd-talk'
@@ -220,13 +218,6 @@ const frameTone = seed === 'd-vision'
 
   .cover-art-image--left-top {
     object-position: left top;
-  }
-
-  .cover-art-image--ticketing {
-    width: 62.5%;
-    height: auto;
-    margin: 0 auto;
-    object-fit: initial;
   }
 
   @media (max-width: 600px) {
