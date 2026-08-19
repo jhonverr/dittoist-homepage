@@ -22,13 +22,17 @@ status: '운영 중'
 visibility: 'public'
 clientType: '고객 프로젝트'
 role: ['요구사항 정리', '데이터 구조 설계', '고객용 웹 개발', '관리자 페이지 개발', '배포·이관']
-ownershipNote: '고객 프로젝트로, 발주처명은 공개 동의 전이라 표기하지 않습니다. 화면은 공개 가능한 범위만 게시합니다.'
+ownershipNote: '고객 프로젝트입니다. 공개 운영 화면과 관리자 공연 관리 화면만 게시하며 예약자 정보는 포함하지 않습니다.'
 approvedClaims: ['CLM-004']
-coverImage: '/projects/ticketing-preview-v2.webp'
+coverImage: '/projects/ticketing-live-preview-v4.webp'
 screenshots:
-  - src: '/projects/reservation-screenshot.png'
-    alt: '더열정 뮤지컬 공연 정보와 온라인 예매 화면'
-    caption: '공연 정보, 회차 선택, 예약과 관람평을 한 화면에 구성한 실제 서비스 화면'
+  - src: '/projects/ticketing-public-live.webp'
+    alt: '더열정 뮤지컬의 최신 공연 목록과 온라인 예매 화면'
+    caption: '현재 공개 운영 중인 고객용 공연 목록과 예매 진입 화면'
+    approved: true
+  - src: '/projects/ticketing-admin-live.webp'
+    alt: '더열정 뮤지컬 관리자 페이지의 공연 관리 화면'
+    caption: '공연 등록·복사와 공개 상태를 관리하는 실제 운영 화면 — 예약자 개인정보는 포함하지 않았습니다.'
     approved: true
 isFeatured: true
 featuredRank: 3

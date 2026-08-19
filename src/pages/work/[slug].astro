@@ -20,7 +20,9 @@ const productUrl = project.id === 'd-vision'
     ? 'https://promo.dtalk.dittoist.com'
     : project.id === 'webnovel-reader'
       ? 'https://webnovel.dittoist.com'
-      : undefined;
+      : project.id === 'ticketing-platform'
+        ? 'https://the-passion-reservation.netlify.app/'
+        : undefined;
 ---
 <BaseLayout title={d.title} description={d.summary} jsonLd={breadcrumbJsonLd([{ name: '홈', path: '/' }, { name: '구축 사례', path: '/work' }, { name: d.title, path: `/work/${project.id}` }])}>
   <section class="work-hero"><Container>
