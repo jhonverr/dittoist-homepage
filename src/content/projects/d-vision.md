@@ -24,7 +24,7 @@ clientType: '자체 제품'
 role: ['제품 기획', '시스템 설계', '백엔드·프론트엔드·클라이언트 개발', '온프레미스 배포 구성']
 ownershipNote: '디토이스트 자체 제품입니다. 게시된 화면은 모두 데모 데이터로 자체 제작했습니다.'
 approvedClaims: ['CLM-002']
-coverImage: '/projects/dvision-screenshot.png'
+coverImage: '/projects/dvision-preview-v2.webp'
 screenshots:
   - src: '/projects/dvision-screenshot.png'
     alt: 'D:Vision 관리자 콘솔의 실시간 장치 모니터링 화면'

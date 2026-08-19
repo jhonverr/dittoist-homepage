@@ -24,7 +24,7 @@ clientType: '자체 제품'
 role: ['제품 기획', '음성 파이프라인 설계', '에이전트 설계·개발', '백엔드·대시보드 개발', '배포·운영']
 ownershipNote: '디토이스트 자체 제품입니다.'
 approvedClaims: ['CLM-001']
-coverImage: '/projects/dtalk-screenshot.png'
+coverImage: '/projects/dtalk-preview-v2.webp'
 screenshots:
   - src: '/projects/dtalk-screenshot.png'
     alt: 'D:Talk AI 전화 응대 서비스의 프로모션 화면'

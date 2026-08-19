@@ -21,7 +21,12 @@ clientType: '고객 프로젝트'
 role: ['구성 기획', '퍼블리싱', '배포', '운영 이관']
 ownershipNote: '고객 프로젝트로, 발주처명은 공개 동의 전이라 표기하지 않습니다.'
 approvedClaims: []
-screenshots: []
+coverImage: '/projects/brand-homepage-preview.webp'
+screenshots:
+  - src: '/projects/brand-homepage-preview.webp'
+    alt: '문화예술 단체 소개 홈페이지의 데스크톱과 모바일 반응형 화면 시각화'
+    caption: '고객 정보를 익명화해 실제 구축 범위를 바탕으로 재구성한 포트폴리오용 컨셉 이미지'
+    approved: true
 isFeatured: false
 users: |
   단체를 처음 접하는 방문자와, 페이지 내용을 직접 수정하는 담당자입니다.

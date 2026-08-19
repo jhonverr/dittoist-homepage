@@ -24,7 +24,7 @@ clientType: '고객 프로젝트'
 role: ['요구사항 정리', '데이터 구조 설계', '고객용 웹 개발', '관리자 페이지 개발', '배포·이관']
 ownershipNote: '고객 프로젝트로, 발주처명은 공개 동의 전이라 표기하지 않습니다. 화면은 공개 가능한 범위만 게시합니다.'
 approvedClaims: ['CLM-004']
-coverImage: '/projects/reservation-screenshot.png'
+coverImage: '/projects/ticketing-preview-v2.webp'
 screenshots:
   - src: '/projects/reservation-screenshot.png'
     alt: '더열정 뮤지컬 공연 정보와 온라인 예매 화면'

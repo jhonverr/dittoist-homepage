@@ -22,7 +22,12 @@ visibility: 'public'
 clientType: '내부 도구'
 role: ['수집·분석 설계', '스크립트 개발', '대시보드 개발']
 approvedClaims: []
-screenshots: []
+coverImage: '/projects/youtube-research-preview.webp'
+screenshots:
+  - src: '/projects/youtube-research-preview.webp'
+    alt: '주제별 수요와 경쟁 지표, 기회 구간을 비교하는 시장 조사 대시보드 시각화'
+    caption: '실제 분석 구조를 바탕으로 구성한 포트폴리오용 컨셉 이미지'
+    approved: true
 isFeatured: false
 users: |
   디토이스트 내부에서 콘텐츠 주제를 결정할 때 사용합니다.

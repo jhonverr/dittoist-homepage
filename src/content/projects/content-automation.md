@@ -22,7 +22,12 @@ visibility: 'public'
 clientType: '내부 도구'
 role: ['파이프라인 설계', '자동화 스크립트 개발', 'TTS 연동', '운영']
 approvedClaims: ['CLM-005']
-screenshots: []
+coverImage: '/projects/content-automation-preview.webp'
+screenshots:
+  - src: '/projects/content-automation-preview.webp'
+    alt: '대본, 장면, 이미지, 음성, 자막 단계를 연결한 AI 콘텐츠 제작 파이프라인 시각화'
+    caption: '실제 구현 범위를 바탕으로 구성한 포트폴리오용 컨셉 이미지'
+    approved: true
 isFeatured: true
 featuredRank: 4
 users: |

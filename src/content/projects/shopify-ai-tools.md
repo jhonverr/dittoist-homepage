@@ -23,7 +23,12 @@ clientType: '자체 제품'
 role: ['제품 기획', '앱 개발', '스토어프론트 확장 개발', '배포']
 ownershipNote: '기술 검증 목적의 MVP입니다. 상용 판매 실적은 없습니다.'
 approvedClaims: []
-screenshots: []
+coverImage: '/projects/shopify-ai-tools-preview.webp'
+screenshots:
+  - src: '/projects/shopify-ai-tools-preview.webp'
+    alt: '트렌드 기반 상품 노출 규칙과 개인화 스토어프론트를 함께 보여주는 커머스 운영 도구 시각화'
+    caption: 'MVP의 기능 구성을 바탕으로 만든 포트폴리오용 컨셉 이미지이며 실제 판매자 데이터가 아닙니다.'
+    approved: true
 isFeatured: false
 users: |
   Shopify로 스토어를 운영하는 사업자를 가정하고 만들었습니다.
