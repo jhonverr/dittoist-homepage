@@ -89,11 +89,10 @@ ssh -o BatchMode=yes "$DEPLOY_HOST" \
 log "릴리스 업로드: $RELEASE_ID"
 ssh "$DEPLOY_HOST" \
   "install -d -o dittoist -g caddy -m 0750 '$DEPLOY_ROOT' '$RELEASES_ROOT' '$RELEASE_DIR'"
-# macOS의 기본 rsync는 --chown을 지원하지 않으므로 소유권은 서버에서 맞춘다.
-rsync -a --delete \
-  --chmod=D750,F640 \
-  dist/ "$DEPLOY_HOST:$RELEASE_DIR/"
-ssh "$DEPLOY_HOST" "chown -R dittoist:caddy '$RELEASE_DIR'"
+# macOS의 기본 rsync는 --chown과 --chmod=D…,F… 형식을 지원하지 않으므로 소유권·권한은 서버에서 맞춘다.
+rsync -a --delete dist/ "$DEPLOY_HOST:$RELEASE_DIR/"
+ssh "$DEPLOY_HOST" \
+  "chown -R dittoist:caddy '$RELEASE_DIR' && find '$RELEASE_DIR' -type d -exec chmod 750 {} + && find '$RELEASE_DIR' -type f -exec chmod 640 {} +"
 ssh "$DEPLOY_HOST" "test -s '$RELEASE_DIR/index.html'"
 
 previous_release="$(ssh "$DEPLOY_HOST" "readlink '$CURRENT_LINK'")"
