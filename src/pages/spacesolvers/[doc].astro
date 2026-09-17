@@ -1,0 +1,50 @@
+---
+// Public copies of the in-game legal documents for 우주해결단 (store listings need a web URL).
+// The text files mirror RhythmGame/Assets/RhythmGame/Resources/Legal and use its markup:
+// "# " heading, "- " bullet, anything else a paragraph. Keep both copies identical.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import privacy from '../../data/spacesolvers/privacy-policy.txt?raw';
+import terms from '../../data/spacesolvers/terms-of-service.txt?raw';
+
+const GAME = '우주해결단';
+const OPERATOR = '디토이스트(dittoist)';
+const EMAIL = 'sm@dittoist.com';
+const EFFECTIVE = '게임 출시일';
+
+export function getStaticPaths() {
+  return [{ params: { doc: 'privacy' } }, { params: { doc: 'terms' } }];
+}
+
+const documents = {
+  privacy: { title: '개인정보처리방침', text: privacy, other: { href: '/spacesolvers/terms/', label: '이용약관' } },
+  terms: { title: '이용약관', text: terms, other: { href: '/spacesolvers/privacy/', label: '개인정보처리방침' } },
+};
+const current = documents[Astro.params.doc as keyof typeof documents];
+
+type Block = { kind: 'heading' | 'paragraph'; text: string } | { kind: 'list'; items: string[] };
+const blocks: Block[] = [];
+const filled = current.text.replaceAll('{OPERATOR}', OPERATOR).replaceAll('{EMAIL}', EMAIL).replaceAll('{DATE}', EFFECTIVE);
+for (const raw of filled.split('\n')) {
+  const line = raw.trim();
+  if (!line) continue;
+  const last = blocks.at(-1);
+  if (line.startsWith('# ')) blocks.push({ kind: 'heading', text: line.slice(2) });
+  else if (line.startsWith('- ')) {
+    if (last?.kind === 'list') last.items.push(line.slice(2));
+    else blocks.push({ kind: 'list', items: [line.slice(2)] });
+  } else blocks.push({ kind: 'paragraph', text: line });
+}
+---
+<BaseLayout title={`${GAME} ${current.title}`} description={`모바일 게임 ${GAME}의 ${current.title}입니다.`}>
+  <Container class="legal-page">
+    <p class="legal-date">모바일 게임 「{GAME}」</p>
+    <h1>{current.title}</h1>
+    {blocks.map((block) =>
+      block.kind === 'heading' ? <h2>{block.text}</h2>
+      : block.kind === 'list' ? <ul>{block.items.map((item) => <li>{item}</li>)}</ul>
+      : <p>{block.text}</p>
+    )}
+    <p><a href={current.other.href}>{GAME} {current.other.label} 보기</a></p>
+  </Container>
+</BaseLayout>

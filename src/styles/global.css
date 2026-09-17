@@ -200,6 +200,9 @@
   .legal-page h1 { margin-bottom: .5rem; font-size: var(--text-section); }
   .legal-page h2 { margin: 3rem 0 .8rem; font-size: 1.3rem; }
   .legal-page p { color: var(--color-muted); }
+  .legal-page ul { margin: .4rem 0 1rem; padding-left: 1.3rem; list-style: disc; color: var(--color-muted); }
+  .legal-page li + li { margin-top: .45rem; }
+  .legal-page p + p { margin-top: .8rem; }
   .legal-date { font-size: var(--text-small); }
   .legal-page a { color: var(--color-blue-deep); text-decoration: underline; }
   .error-page { display: flex; min-height: 48vh; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; text-align: center; }
