@@ -31,7 +31,7 @@ screenshots:
     caption: '앱스토어 게시용으로 구성한 주요 화면 — 오프닝부터 독서, 이야기 탐색, AI Q&A까지'
     approved: true
 isFeatured: true
-featuredRank: 3
+featuredRank: 5
 users: |
   모바일에서 판타지 웹소설을 읽는 독자를 대상으로 설계했습니다. 처음 접속한 독자는
   웹에서 무료 회차를 바로 읽을 수 있고, 앱에서는 읽던 위치와 설정을 유지하며 시즌 전체를

@@ -29,7 +29,7 @@ screenshots:
     caption: '실제 구현 범위를 바탕으로 구성한 포트폴리오용 컨셉 이미지'
     approved: true
 isFeatured: true
-featuredRank: 4
+featuredRank: 6
 users: |
   디토이스트 내부에서 콘텐츠를 제작하는 데 사용하는 도구입니다. 사용자는 각 단계의 결과를
   검수하고 필요한 부분만 수정합니다.

@@ -35,7 +35,7 @@ screenshots:
     caption: '공연 등록·복사와 공개 상태를 관리하는 실제 운영 화면'
     approved: true
 isFeatured: true
-featuredRank: 3
+featuredRank: 4
 users: |
   공연을 예약하는 관객과, 공연을 운영하는 담당자 두 종류의 사용자가 있습니다.
   관객은 대부분 모바일로 접속하고, 운영 담당자는 공연 당일 현장에서도 예약 현황을 확인합니다.

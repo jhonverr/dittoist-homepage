@@ -47,7 +47,7 @@ screenshots:
     caption: '임무 선택 — 우주 곳곳에서 펼쳐지는 10개의 리듬 임무'
     approved: true
 isFeatured: true
-featuredRank: 6
+featuredRank: 3
 users: |
   가볍게 즐길 수 있는 리듬 게임을 찾는 모바일 플레이어를 대상으로 설계했습니다. 혼자서는 AI 동료
   셋과 임무를 수행하고, 친구와는 온라인 방을 만들어 함께 도전합니다. 처음 하는 사람도 시범을 보고

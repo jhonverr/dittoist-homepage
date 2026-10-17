@@ -28,7 +28,7 @@ screenshots:
     caption: '단체 소개와 활동 정보를 전달하는 데스크톱·모바일 반응형 화면'
     approved: true
 isFeatured: true
-featuredRank: 5
+featuredRank: 7
 users: |
   단체를 처음 접하는 방문자와, 페이지 내용을 직접 수정하는 담당자입니다.
 scope:
