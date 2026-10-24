@@ -22,7 +22,7 @@ features:
   - '전체에서 하나뿐인 닉네임과 스테이지별 공개 순위표'
   - 'Google Play 게임즈 로그인으로 재설치·기기 변경 후에도 기록 유지'
 stack: ['Unity 6', 'C#', 'Unity Gaming Services', 'Cloud Code', 'Google Play Games', 'AdMob', 'Google Play Billing', 'Python 검증 도구']
-status: '개발 완료'
+status: '운영 중'
 visibility: 'public'
 clientType: '자체 제품'
 role: ['게임 기획', '리듬·판정 설계', '스테이지·연출 개발', '온라인 협동·서버 개발', '광고·결제·출시 구성']
@@ -69,8 +69,8 @@ architecture: |
   Cloud Code 서버 스크립트가 중복과 변경 횟수를 검사해 Cloud Save에 저장합니다. 플레이어 계정은
   Google Play 게임즈와 연결되고, 광고는 AdMob, 결제는 Google Play Billing 영수증을 확인한 뒤에만 지급합니다.
 outcome: |
-  10개 스테이지와 혼자하기·같이하기, 순위표, 광고·결제를 갖춘 1.0 버전을 완성했고 Google Play 정식 출시를
-  진행하고 있습니다. 다운로드나 매출 성과는 공개하지 않습니다.
+  10개 스테이지와 혼자하기·같이하기, 순위표, 광고·결제를 갖춘 1.0 버전을 완성해 Google Play에 정식
+  출시했습니다. 다운로드나 매출 성과는 공개하지 않습니다.
 relatedService: 'mobile-device'
 ---
 
